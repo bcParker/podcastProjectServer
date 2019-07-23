@@ -11,12 +11,12 @@ module.exports = (req, res, next) => {
 			return res.status(403).send({auth: false, message: 'NO TOKEN PROVIDED'});
 		} else {
 			jwt.verify(sessionToken, process.env.JWT_SECRET, (err, decoded) => {
-				console.log(decoded)
-				console.log(sessionToken)
+				//console.log(decoded)
+				//console.log(sessionToken)
 				if (decoded) {
 					User.findOne({where: {id: decoded.id}}).then(user => {
 						req.user = user;
-						console.log(user)
+						//console.log(user)
 						next();
 					}),
 					function (){

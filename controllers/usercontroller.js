@@ -46,26 +46,34 @@ router.post('/login', (req, res) => {
 		}, err => status(501).send({Error: 'FAILED TO PROCESS'}))
 })
 
-/*
-router.get('/userPage', (req, res) => {
+
+router.get('/userPage',Validate, (req, res) => {
+	User.findAll()
+		.then(log => {
+			res.status(200).json(log)
+		})
+		.catch(err => res.status(500).json({ Error: 'Failed to retrieve' }))
 	//This will need to retreive and display the information from podcastURL column of user table
 })
-*/
 
 
-router.put('/add', Validate,  (req, res) => {
-	console.log(req.user.id)
+
+router.put('/add',Validate,  (req, res) => {
 	User.update({podcastURL: [req.body.user.podcastURL]}, {where: {id: req.user.id}})
 		.then(log => res.status(200).json({ message: 'Added to Playlist' }))
 		.catch(err => res.status(500).json({ Error: 'Failed to add' }))
+	
 	//This will need to either grab data from Listen API and store it in the podcastURL or grab the information from what is already displayed on the screen
 })
 
 
-/*
-router.delete('/delete', (req, res) => {
+
+router.put('/delete',Validate, (req, res) => {
+	//console.log()
+	User.update({podcastURL: [req.body.user.podcastURL]}, {where: {id: req.user.id }})
+		.then(log => res.status(200).json({message: 'Successfully deleted'}))
+		.catch(err => res.status(500).json({Error: 'Failed to delete'}))
 	//This will need to remove an item from the podcastURL column of user table
 })
-*/
 
 module.exports = router;
